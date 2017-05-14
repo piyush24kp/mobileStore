@@ -1,0 +1,98 @@
+<div class="container sign-up">
+   
+<md-content layout-padding style="border-radius: 15px;">
+    <div>
+      <form name="userForm">
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>First name</label>
+            <input name="firstName" md-maxlength="30" required ng-model="user.firstName">
+            <div ng-messages="userForm.firstName.$error">
+		      <div ng-message="required">This is required.</div>
+		      <div ng-message="md-maxlength">The First Name must be less than 30 characters long.</div>
+		    </div>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Last Name </label>
+            <input name="lastname" md-maxlength="30" required  ng-model="user.lastname">
+            <div ng-messages="userForm.lastname.$error">
+		      <div ng-message="required">This is required.</div>
+		      <div ng-message="md-maxlength">The Last Name must be less than 30 characters long.</div>
+		    </div>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+          <label>Contact No.</label>
+          <input type="number" name="contactNo" ng-model="user.contactNo" ng-pattern="/^[0-9]{10,10}$/;" />
+          <div ng-messages="userForm.contactNo.$error">
+		      <div ng-message="required">This is required.</div>
+		      <div ng-message="pattern">The contact number must be 10 characters long.</div>
+		    </div>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+        <label>Email</label>
+        <input required type="email" name="userForm" ng-model="userForm.clientEmail"
+               minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+
+        <div ng-messages="userForm.clientEmail.$error" role="alert">
+          <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+            Your email must be between 10 and 100 characters long and look like an e-mail address.
+          </div>
+        </div>
+      </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Address</label>
+          <input ng-model="user.address">
+        </md-input-container>
+
+        <md-input-container md-no-float class="md-block">
+	       	<label>Address</label>
+    	    <input ng-model="user.address2">
+        </md-input-container>
+
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>City</label>
+            <input ng-model="user.city">
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>State</label>
+            <md-select ng-model="user.state">
+              <md-option ng-repeat="state in states" value="{{state.abbrev}}">
+                {{state.abbrev}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Postal Code</label>
+            <input name="postalCode" ng-model="user.postalCode" placeholder="12345"
+                   required ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+
+            <div ng-messages="userForm.postalCode.$error" role="alert" multiple>
+              <div ng-message="required" class="my-message">You must supply a postal code.</div>
+              <div ng-message="pattern" class="my-message">That doesn't look like a valid postal
+                code.
+              </div>
+              <div ng-message="md-maxlength" class="my-message">
+                Don't use the long version silly...we don't need to be that specific...
+              </div>
+            </div>
+          </md-input-container>
+        </div>
+
+         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+	      <md-button class="md-raised md-primary">Submit</md-button>
+	        <md-button class="md-raised md-warn">Cancle</md-button>
+	    </section>
+        
+
+      </form>
+    </div>
+  </md-content>
+
+</div>

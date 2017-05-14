@@ -1,0 +1,49 @@
+<div -ng-controller="addModalCtr as vm">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Add Order </h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            
+           <form name="Order">
+              <div class="form-group">
+                <label for="OrderName">Order Name</label>
+                <input type="text" class="form-control" id="orderName" ng-model="vm.order.orderName" required>
+              </div>
+              <div class="form-group">
+                <label for="Category">Category</label>
+                <input type="text" class="form-control" id="category" ng-model="vm.order.category">
+              </div>
+              <div class="form-group">
+                <label for="Brand">Brand</label>
+                <input type="text" class="form-control" id="brand" ng-model="vm.order.brand">
+              </div>
+              <div class="form-group">
+                <label for="Quantity">Quantity</label>
+                <input type="number" class="form-control" id="orderName" ng-model="vm.order.quantity" required>
+              </div>
+              <div class="form-group">
+                <label for="PurchasePrice">Purchase Price</label>
+                <input type="number" class="form-control" id="PurchasePrice" ng-model="vm.order.purchasePrice" required>
+              </div>
+               <div class="form-group">
+                <label for="sellPrice">Selling Price</label>
+                <input type="number" class="form-control" id="sellPrice" ng-model="vm.order.sellPrice">
+              </div>
+              <div class="form-group">
+                <label for="suppliedBy">Supplied By</label>
+               <!--  <input type="text" class="form-control" id="sellPrice" ng-model="vm.order.suppliedBy"> -->
+                <select  class="form-control" id="sellPrice" ng-model="vm.order.suppliedBy">
+                  <option ng-repeat="data in vm.suppliyers" value="{{data.supplierId}}">{{data.supplierName}}</option>
+                  <!-- <option value="orderName"> Order Name</option>
+                  <option value="brand">Brand</option>
+                  <option value="category">Category</option>
+                  <option value="suppliedBy">SuppliedBy</option> -->
+                </select>
+              </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="vm.ok()" ng-disabled="!Order.$valid">Save</button>
+            <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+        </div>
+</div>

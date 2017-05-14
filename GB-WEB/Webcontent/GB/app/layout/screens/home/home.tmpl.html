@@ -1,0 +1,152 @@
+<div class="container" style="background: #fff">
+	<h2>Store Details</h2>
+
+
+	<uib-tabset active="activeForm">
+      <uib-tab index="0" heading="Stock">
+        <div class="row">
+		<table st-table="vm.orderDetails" class="table table-striped" st-safe-src="vm.rowCollection">
+			<thead>
+
+			<tr>
+				<th>  
+				<label> Search By  </label>
+					<select ng-model="vm.search" class="input-md form-control">
+						<option value="orderId">Product Id</option>
+						<option value="orderName"> Order Name</option>
+						<option value="brand">Brand</option>
+						<option value="category">Category</option>
+						<option value="suppliedBy">SuppliedBy</option>
+					</select>
+
+				</th>
+				<th>  
+				<label> Search </label>
+					<input st-search="{{vm.search}}" placeholder="search for Order Id" class="form-control" type="search"/>
+
+				</th>
+				<th>
+					<input type="button" value="Add Order" class="btn btn-primary pull-right" model-box modal-data="" 
+					options="
+					{
+					'animation': true,
+                    'templateUrl': 'GB/app/layout/screens/modal/addOrderModal.tmpl.html',
+                    'size': 'md',
+                    
+					}"/>
+				</th>
+				<!-- <th>
+					<input st-search="orderId" placeholder="search for Order Id" class="input-sm form-control" type="search"/>
+				</th>
+				<th>
+					<input st-search="orderId" placeholder="search for Order Id" class="input-sm form-control" type="search"/>
+				</th> -->
+			</tr>
+			<tr>
+				<th st-sort="orderId">Product Id</th>
+				<th st-sort="orderName">Order Name</th>
+				<th st-sort="category">Category</th>
+				<th st-sort="brand">Brand</th>
+				<th st-sort="quantity">Quantity</th>
+				<th st-sort="purchasePrice">Purchase Price</th>
+				<th st-sort="sellPrice">Selling Price</th>
+				<th st-sort="suppliedBy">Supplied By</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="row in vm.orderDetails">
+				<td>{{row.orderId}}</td>
+				<td>{{row.orderName}}</td>
+				<td>{{row.category}}</td>
+				<td>{{row.brand}}</td>
+				<td>{{row.quantity}}</td>
+				<td>{{row.purchasePrice}}</td>
+				<td>{{row.sellPrice}}</td>
+				<td>{{row.suppliedBy}}</td>
+				</tr>
+
+			</tbody>
+
+			<tfoot>
+			<tr>
+				<td colspan="8" class="text-center">
+					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="5"></div>
+				</td>
+			</tr>
+		</tfoot>
+		</table>
+	</div>
+      </uib-tab>
+
+      <uib-tab index="1" heading="Supplier" ng-click="vm.selectTab('supplier')">
+        <table st-table="vm.supplierDetail" class="table table-striped" st-safe-src="vm.suppDetailCollection">
+			<thead>
+
+			<tr>
+				<th>  
+					<!-- <input st-search placeholder="search for supplier" class="input-sm form-control" type="search"/> -->
+					<input st-search class="form-control" type="search" placeholder="search for supplier"/>
+
+				</th>
+				<th>
+					<input type="button" value="Add Order" class="btn btn-primary pull-right" model-box modal-data="" 
+					options="
+					{
+					'animation': true,
+                    'templateUrl': 'GB/app/layout/screens/modal/addSupplierModal.tmpl.html',
+                    'size': 'md',
+                    
+					}"/>
+				</th>
+				<!-- <th>
+					<input st-search="orderId" placeholder="search for Order Id" class="input-sm form-control" type="search"/>
+				</th>
+				<th>
+					<input st-search="orderId" placeholder="search for Order Id" class="input-sm form-control" type="search"/>
+				</th> -->
+			</tr>
+			<tr>
+				<th st-sort="supplierId">Supplier Id</th>
+				<th st-sort="supplierName">Supplier Name</th>
+				<th st-sort="contactNo">Contact No</th>
+				<th st-sort="address">address</th>
+				<th st-sort="amountDue">Amount Due</th>
+				<th st-sort="amountPaid">Amount Paid</th>
+				
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="row in vm.supplierDetail">
+				<td>{{row.supplierId}}</td>
+				<td>{{row.supplierName}}</td>
+				<td>{{row.contactNo}}</td>
+				<td>{{row.address}}</td>
+				<td>{{row.amountDue}}</td>
+				<td>{{row.amountPaid}}</td>
+			</tbody>
+
+			<tfoot>
+			<tr>
+				<td colspan="6" class="text-center">
+					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="5"></div>
+				</td>
+			</tr>
+		</tfoot>
+		</table>
+      </uib-tab>
+      
+
+
+      <uib-tab index="2" heading="Brands">
+        
+      
+      </uib-tab>
+
+
+    
+    </uib-tabset>
+
+	
+
+
+</div>
