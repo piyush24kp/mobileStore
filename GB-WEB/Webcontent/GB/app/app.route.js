@@ -14,6 +14,11 @@ this route provider for gust and member users
                 controller: 'homeCtr',
                 controllerAs: 'vm',
             })
+            .when('/billing', {
+                templateUrl: 'GB/app/layout/screens/billing/billing.tmpl.html',
+                controller: 'billingCtr',
+                controllerAs: 'vm',
+            })
             .when('/login', {
                 templateUrl: 'GB/app/layout/screens/login/login.tmpl.html',
                 controller: 'loginCtr',

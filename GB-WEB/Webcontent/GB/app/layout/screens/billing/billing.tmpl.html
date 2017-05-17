@@ -1,0 +1,92 @@
+<div class="container" style="background: #fff">
+	<h2>Billing Details</h2>
+	<uib-tabset active="activeForm">
+      <uib-tab index="0" heading="Sell">
+        <div class="row">
+		<table st-table="vm.sellDetail" class="table table-striped" st-safe-src="vm.sellDetailList">
+			<thead>
+
+			<tr>
+				<th>  
+				<label> Search By  </label>
+					<select ng-model="vm.search" class="input-md form-control">
+						<option value="orderId">Order Id</option>
+						<option value="invoiceNo"> Invoice No</option>
+						<option value="imeiNo"> IMEI No</option>
+						<option value="customerName"> Customer</option>
+						<option value="brand.brandName">Brand</option>
+						<option value="model.modelName">model</option>
+						<option value="contantNo"> Contant No</option>
+						<option value="saleType"> Sale Type</option>
+					</select>
+
+				</th>
+				<th>  
+				<label> Search </label>
+					<input st-search="{{vm.search}}" placeholder="search for Order Id" class="form-control" type="search"/>
+
+				</th>
+				<th>
+					<input type="button" value="Sell Order" class="btn btn-primary pull-right" model-box modal-data="" 
+					options="
+					{
+					'animation': true,
+                    'templateUrl': 'GB/app/layout/screens/modal/addSellOrder.tmpl.html',
+                    'size': 'md',
+                    
+					}"/>
+				</th>
+				<!-- <th>
+					<input st-search="orderId" placeholder="search for Order Id" class="input-sm form-control" type="search"/>
+				</th>
+				<th>
+					<input st-search="orderId" placeholder="search for Order Id" class="input-sm form-control" type="search"/>
+				</th> -->
+			</tr>
+			<tr>
+				<th st-sort="orderId">Product Id</th>
+				<th st-sort="invoiceNo">Order Name</th>
+				<th st-sort="imeiNo">IMEI</th>
+				<th st-sort="customerName">Name</th>
+				<th st-sort="contantNo">Contact No</th>
+				<th st-sort="brand.brandName">Brand</th>
+				<th st-sort="model.modelNa">Model</th>
+				<th st-sort="sellDate">Sell Date</th>
+				<th st-sort="saleType">Sell Type</th>
+				<th st-sort="address">Address</th>
+				<th st-sort="amount">Amount</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="row in vm.sellDetail">
+				<td>{{row.orderId}}</td>
+				<td>{{row.invoiceNo}}</td>
+				<td>{{row.imeiNo}}</td>
+				<td>{{row.customerName}}</td>
+				<td>{{row.contantNo}}</td>
+				<td>{{row.brand.brandName}}</td>
+				<td>{{row.model.modelName}}</td>
+				<td>{{row.sellDate | date}}</td>
+				<td>{{row.saleType}}</td>
+				<td>{{row.address}}</td>
+				<td>{{row.amount}}</td>
+				</tr>
+
+			</tbody>
+
+			<tfoot>
+			<tr>
+				<td colspan="11" class="text-center">
+					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="5"></div>
+				</td>
+			</tr>
+		</tfoot>
+		</table>
+		</div>
+      </uib-tab>
+    </uib-tabset>
+
+	
+
+
+</div>

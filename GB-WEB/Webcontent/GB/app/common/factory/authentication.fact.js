@@ -21,7 +21,9 @@
             getBrand: getBrand,
             getModel: getBrand,
             changeBrand: changeBrand,
-            saveBrand: saveBrand
+            saveBrand: saveBrand,
+            getSellOrders: getSellOrders,
+            setSellOrder: setSellOrder
         };
         return service;
 
@@ -54,6 +56,12 @@
 
         function createSupplier(data) {
             var url = '/stock/createSupplier';
+            return $http.post(config.APIurl + url, data)
+                .then(getDataComplete);
+        }
+
+        function setSellOrder(data) {
+            var url = '/billing/setSellOrder';
             return $http.post(config.APIurl + url, data)
                 .then(getDataComplete);
         }
@@ -97,6 +105,13 @@
             //url = getParamUrl(url, param);
             url = url + '?id=' + brandId;
             return $http.get(config.APIurl + url, brandId)
+                .then(getDataComplete);
+        }
+
+        function getSellOrders(param) {
+            var url = '/billing/getSellOrders';
+            // url = getParamUrl(url, param);
+            return $http.get(config.APIurl + url, param)
                 .then(getDataComplete);
         }
 

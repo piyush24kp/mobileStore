@@ -30,8 +30,24 @@
                 // or server returns response with an error status.
                 return false;
             });
+        };
 
+        vm.setSellOrder = function() {
+            return authfactory.setSellOrder(vm.order).then(function successCallback(response) {
 
+                if (response.status === 200) {
+                    response = response.data.databean;
+                    $scope.$emit("sellOrder", {
+                        order: response
+                    });
+                    $scope.$emit("cancelModal");
+                    return response;
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
         };
 
         vm.saveSupplier = function() {

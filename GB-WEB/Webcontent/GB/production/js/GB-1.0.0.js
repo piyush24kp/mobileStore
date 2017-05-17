@@ -39,6 +39,11 @@ angular.module('app')
                 controller: 'homeCtr',
                 controllerAs: 'vm',
             })
+            .when('/billing', {
+                templateUrl: 'GB/app/layout/screens/billing/billing.tmpl.html',
+                controller: 'billingCtr',
+                controllerAs: 'vm',
+            })
             .when('/login', {
                 templateUrl: 'GB/app/layout/screens/login/login.tmpl.html',
                 controller: 'loginCtr',
@@ -200,7 +205,9 @@ angular
             getBrand: getBrand,
             getModel: getBrand,
             changeBrand: changeBrand,
-            saveBrand: saveBrand
+            saveBrand: saveBrand,
+            getSellOrders: getSellOrders,
+            setSellOrder: setSellOrder
         };
         return service;
 
@@ -233,6 +240,12 @@ angular
 
         function createSupplier(data) {
             var url = '/stock/createSupplier';
+            return $http.post(config.APIurl + url, data)
+                .then(getDataComplete);
+        }
+
+        function setSellOrder(data) {
+            var url = '/billing/setSellOrder';
             return $http.post(config.APIurl + url, data)
                 .then(getDataComplete);
         }
@@ -276,6 +289,13 @@ angular
             //url = getParamUrl(url, param);
             url = url + '?id=' + brandId;
             return $http.get(config.APIurl + url, brandId)
+                .then(getDataComplete);
+        }
+
+        function getSellOrders(param) {
+            var url = '/billing/getSellOrders';
+            // url = getParamUrl(url, param);
+            return $http.get(config.APIurl + url, param)
                 .then(getDataComplete);
         }
 
@@ -501,6 +521,74 @@ angular
     }
 })();
 
+// Source: dest/layout/screens/billing/billing.ctrl.js
+(function() {
+angular
+        .module('app.layout')
+        .controller('billingCtr', billingCtr);
+
+    billingCtr.$inject = ['$timeout', '$filter', '$q', 'config', '$rootScope', '$cookies', '$scope', '$location', 'authfactory'];
+
+    function billingCtr($timeout, $filter, $q, config, $rootScope, $cookies, $scope, $location, authfactory) {
+        var vm = this;
+        var params = {};
+        vm.itemsByPage = 10;
+
+
+
+        function activate() {
+            vm.getSellOrders();
+        }
+
+        vm.getSellOrders = getSellOrders;
+
+        function getSellOrders() {
+            resetParam();
+            /*if (!uid) {
+                return false;
+            }
+            params.uid = uid;*/
+            return authfactory.getSellOrders(params).then(function successCallback(response) {
+                if (response.status === 200) {
+
+                    response = response.data.databean;
+
+                    vm.sellDetail = response;
+                    vm.sellDetailList = response;
+
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
+        }
+
+        vm.selectTab = selectTab;
+
+        function selectTab(tab) {
+            resetParam();
+
+            if (tab === 'supplier') {
+                vm.getSupplier();
+            } else if (tab === 'brand') {
+                vm.getBrand();
+            } else if (tab === 'model') {
+                vm.getModel();
+            } else if (tab === 'category') {
+
+            }
+        }
+
+        function resetParam() {
+            params = {};
+        }
+
+        activate();
+
+    }
+})();
+
 // Source: dest/layout/screens/home/home.ctr.js
 (function() {
 angular
@@ -716,8 +804,24 @@ angular
                 // or server returns response with an error status.
                 return false;
             });
+        };
 
+        vm.setSellOrder = function() {
+            return authfactory.setSellOrder(vm.order).then(function successCallback(response) {
 
+                if (response.status === 200) {
+                    response = response.data.databean;
+                    $scope.$emit("sellOrder", {
+                        order: response
+                    });
+                    $scope.$emit("cancelModal");
+                    return response;
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
         };
 
         vm.saveSupplier = function() {
