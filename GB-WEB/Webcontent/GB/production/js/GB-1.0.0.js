@@ -196,7 +196,11 @@ angular
             createOrder: createOrder,
             createSupplier: createSupplier,
             getSupplier: getSupplier,
-            getSupplierId: getSupplierId
+            getSupplierId: getSupplierId,
+            getBrand: getBrand,
+            getModel: getBrand,
+            changeBrand: changeBrand,
+            saveBrand: saveBrand
         };
         return service;
 
@@ -214,37 +218,64 @@ angular
         }
 
         function getOrders(param) {
-            var url = '/getOrders';
+            var url = '/stock/getOrders';
             url = getParamUrl(url, param);
             return $http.get(config.APIurl + url, param)
                 .then(getDataComplete);
         }
 
         function createOrder(data) {
-            var url = '/setOrders';
+            var url = '/stock/setOrders';
 
             return $http.post(config.APIurl + url, data)
                 .then(getDataComplete);
         }
 
         function createSupplier(data) {
-            var url = '/createSupplier';
+            var url = '/stock/createSupplier';
+            return $http.post(config.APIurl + url, data)
+                .then(getDataComplete);
+        }
 
+        function saveBrand(data) {
+            var url = '/stock/createBrands';
             return $http.post(config.APIurl + url, data)
                 .then(getDataComplete);
         }
 
         function getSupplier(param) {
-            var url = '/getSupplier';
+            var url = '/stock/getSupplier';
             // url = getParamUrl(url, param);
             return $http.get(config.APIurl + url, param)
                 .then(getDataComplete);
         }
 
         function getSupplierId(param) {
-            var url = '/getSupplierId';
+            var url = '/stock/getSupplierId';
             // url = getParamUrl(url, param);
             return $http.get(config.APIurl + url, param)
+                .then(getDataComplete);
+        }
+
+        function getBrand(param) {
+            var url = '/stock/getBrands';
+            // url = getParamUrl(url, param);
+            return $http.get(config.APIurl + url, param)
+                .then(getDataComplete);
+        }
+
+        function getModel(param) {
+            var url = '/stock/getModel';
+            // url = getParamUrl(url, param);
+            return $http.get(config.APIurl + url, param)
+                .then(getDataComplete);
+        }
+
+        function changeBrand(brandId) {
+            var url = '/stock/getModelById';
+            //url = getParamUrl(url, param);
+            url = url + '?id=' + brandId;
+            return $http.get(config.APIurl + url, brandId)
                 .then(getDataComplete);
         }
 
@@ -519,7 +550,7 @@ angular
             return authfactory.getOrders(params).then(function successCallback(response) {
                 if (response.status === 200) {
 
-                    response = response.data;
+                    response = response.data.databean;
 
                     vm.orderDetails = response;
                     vm.rowCollection = response;
@@ -539,6 +570,11 @@ angular
             vm.rowCollection.push(args.order);
         });
 
+        $rootScope.$on('brandOrder', function(event, args) {
+            vm.brandDetail.push(args.brand);
+            vm.brandDetailList.push(args.brand);
+        });
+
 
         vm.getSupplier = getSupplier;
 
@@ -551,10 +587,58 @@ angular
             return authfactory.getSupplier(params).then(function successCallback(response) {
                 if (response.status === 200) {
 
-                    response = response.data;
+                    response = response.data.databean;
 
                     vm.supplierDetail = response;
                     vm.suppDetailCollection = response;
+
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
+        }
+
+        vm.getBrand = getBrand;
+
+        function getBrand() {
+            resetParam();
+            /*if (!uid) {
+                return false;
+            }
+            params.uid = uid;*/
+            return authfactory.getBrand(params).then(function successCallback(response) {
+                if (response.status === 200) {
+
+                    response = response.data.databean;
+
+                    vm.brandDetail = response;
+                    vm.brandDetailList = response;
+
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
+        }
+
+        vm.getModel = getModel;
+
+        function getModel() {
+            resetParam();
+            /*if (!uid) {
+                return false;
+            }
+            params.uid = uid;*/
+            return authfactory.getModel(params).then(function successCallback(response) {
+                if (response.status === 200) {
+
+                    response = response.data.databean;
+
+                    vm.modelDetail = response;
+                    vm.modelDetailList = response;
 
                 }
             }, function errorCallback(response) {
@@ -571,34 +655,13 @@ angular
 
             if (tab === 'supplier') {
                 vm.getSupplier();
+            } else if (tab === 'brand') {
+                vm.getBrand();
+            } else if (tab === 'model') {
+                vm.getModel();
+            } else if (tab === 'category') {
+
             }
-
-        }
-
-
-
-        vm.searchUser = searchUser;
-
-        function searchUser(name) {
-            resetParam();
-            if (!name) {
-                return false;
-            }
-            params.name = name;
-            return authfactory.getUser(params).then(function successCallback(response) {
-                vm.allUsers = [];
-                if (response.status === 200) {
-                    response = response.data;
-
-                    vm.allUsers = response;
-                    return response;
-                }
-            }, function errorCallback(response) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-                return false;
-            });
-
         }
 
         function resetParam() {
@@ -638,11 +701,10 @@ angular
 
         vm.ok = function() {
 
-
             return authfactory.createOrder(vm.order).then(function successCallback(response) {
 
                 if (response.status === 200) {
-                    response = response.data;
+                    response = response.data.databean;
                     $scope.$emit("addOrder", {
                         order: response
                     });
@@ -663,7 +725,7 @@ angular
             return authfactory.createSupplier(vm.order).then(function successCallback(response) {
 
                 if (response.status === 200) {
-                    response = response.data;
+                    response = response.data.databean;
                     $scope.$emit("supplierOrder", {
                         supplier: response
                     });
@@ -677,13 +739,32 @@ angular
             });
         };
 
+        vm.saveBrand = saveBrand;
+
+        function saveBrand() {
+            return authfactory.saveBrand(vm.order).then(function successCallback(response) {
+                if (response.status === 200) {
+                    response = response.data.databean;
+                    $scope.$emit("brandOrder", {
+                        brand: response
+                    });
+                    $scope.$emit("cancelModal");
+                    return response;
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
+        }
+
 
         vm.getSuppliers = function() {
 
             return authfactory.getSupplierId().then(function successCallback(response) {
 
                 if (response.status === 200) {
-                    response = response.data;
+                    response = response.data.databean;
 
                     vm.suppliyers = response;
                     return response;
@@ -696,6 +777,39 @@ angular
         };
 
         vm.getSuppliers();
+
+        vm.getBrand = getBrand;
+
+        function getBrand() {
+            return authfactory.getBrand(params).then(function successCallback(response) {
+                if (response.status === 200) {
+                    response = response.data.databean;
+                    vm.brandDetail = response;
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
+        }
+
+        vm.getBrand();
+
+        vm.changeBrand = changeBrand;
+
+        function changeBrand(brandId) {
+            return authfactory.changeBrand(brandId).then(function successCallback(response) {
+                if (response.status === 200) {
+                    response = response.data.databean;
+                    vm.modelDetail = response;
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
+        }
+
 
         vm.cancel = function() {
             $scope.$emit("cancelModal");

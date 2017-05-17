@@ -1,5 +1,6 @@
 package com.gb.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,10 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gb.model.LoginDetail;
+import com.gb.model.OrderDetail;
 import com.gb.model.userDetails;
+import com.gb.vo.LoginDetailVo;
 import com.gb.vo.UserDetailsVo;
 
 @Repository
@@ -16,102 +20,18 @@ public class UserRepository {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public List<userDetails> getFamily(Integer uid) {
-		
-		List<userDetails> userDetails = null;
-		
-		String baseQuery = "select FatherId,MotherId FROM userDetails where uid = "+uid;
-		
-		userDetails = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(userDetails.class));
-		
-		return userDetails;
-	}
-	
-	public userDetails getFatherName(Integer uid){
-		
-		userDetails userDetails = null;
-		
-		String baseQuery = "select * from userDetails where UID = (select FatherId FROM userDetails where uid = "+ uid +")";
-		
-		return userDetails;
-		
-	}
-	
-	public userDetails getMotherName(Integer uid){
-		
-		userDetails userDetails = null;
-		
-		String baseQuery = "select * from userDetails where UID = (select MotherId FROM userDetails where uid = "+ uid +")";
-		
-		return userDetails;
-		
-	}
-	
-	public List<userDetails> getParents(Integer uid){
-		
-		List<userDetails> userDetails = null;
-		
-		String baseQuery = "select * from userDetails where UID = (select FatherId FROM userDetails where uid = "+ uid +") OR UID = (select MotherId FROM userDetails where uid = "+ uid +")";
-		
-		userDetails = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(userDetails.class));
-		
-		return userDetails;
-		
-	}
-	
-	public List<userDetails> getPersonalDetail(Integer uid){
-		
-		List<userDetails> userDetails = null;
-		
-		String baseQuery = "select * from userDetails where UID = "+ uid;
-		
-		userDetails = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(userDetails.class));
-		
-		return userDetails;
-		
-	}
-	
-	public List<userDetails> getChildrens(Integer uid){
-		
-		List<userDetails> userDetails = null;
-		
-		String baseQuery = "select DISTINCT * from userDetails where FatherId = "+ uid +" or MotherId = "+uid;
-		
-		userDetails = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(userDetails.class));
-		
-		return userDetails;
-		
+	public List<LoginDetail> login(LoginDetail loginDetail) {
+		List<LoginDetail>  detail = new ArrayList<LoginDetail>();
+		String baseQuery = "select * FROM userdetails WHERE userId = '"+ loginDetail.getUserId() +"' AND password = '" + loginDetail.getPassword()+"'";
+		detail = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(LoginDetail.class));
+		return detail;
 	}
 
-	public List<UserDetailsVo> getUser(String name) {
-		List<UserDetailsVo> userDetails = null;
-
-		String baseQuery = "select * from userDetails where Firstname LIKE '"+name+"%'";
-		
-		userDetails = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(userDetails.class));
-		
-		return userDetails;
+	public Integer changePassword(LoginDetailVo loginDetail) {
+		String baseQuery = "UPDATE userdetails set userId = ?,password = ? WHERE userId = ?";
+		Object[] params = new Object[] { loginDetail.getUserId(),loginDetail.getPassword(),loginDetail.getUserId() };
+		return jdbcTemplate.update(baseQuery, params);
 	}
 
-	public List<userDetails> getSibling(Integer uid) {
-		
-		List<userDetails> userDetails = null;
-		
-		String baseQuery = "select * from userDetails where (FatherId = (select FatherId from userDetails where UID = "+ uid +") or MotherId = (select MotherId from userDetails where UID = "+ uid +")) and not UID ="+uid;
-		
-		userDetails = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(userDetails.class));
-		
-		return userDetails;
-	}
-
-	public List<userDetails> getSpouse(Integer uid) {
-		List<userDetails> userDetails = null;
-		
-		String baseQuery = "select * from userDetails where spouseId = "+ uid ;
-		
-		userDetails = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(userDetails.class));
-		
-		return userDetails;
-	}
 
 }

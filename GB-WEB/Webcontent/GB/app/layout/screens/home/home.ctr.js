@@ -48,7 +48,7 @@
             return authfactory.getOrders(params).then(function successCallback(response) {
                 if (response.status === 200) {
 
-                    response = response.data;
+                    response = response.data.databean;
 
                     vm.orderDetails = response;
                     vm.rowCollection = response;
@@ -68,6 +68,11 @@
             vm.rowCollection.push(args.order);
         });
 
+        $rootScope.$on('brandOrder', function(event, args) {
+            vm.brandDetail.push(args.brand);
+            vm.brandDetailList.push(args.brand);
+        });
+
 
         vm.getSupplier = getSupplier;
 
@@ -80,10 +85,58 @@
             return authfactory.getSupplier(params).then(function successCallback(response) {
                 if (response.status === 200) {
 
-                    response = response.data;
+                    response = response.data.databean;
 
                     vm.supplierDetail = response;
                     vm.suppDetailCollection = response;
+
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
+        }
+
+        vm.getBrand = getBrand;
+
+        function getBrand() {
+            resetParam();
+            /*if (!uid) {
+                return false;
+            }
+            params.uid = uid;*/
+            return authfactory.getBrand(params).then(function successCallback(response) {
+                if (response.status === 200) {
+
+                    response = response.data.databean;
+
+                    vm.brandDetail = response;
+                    vm.brandDetailList = response;
+
+                }
+            }, function errorCallback(response) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                return false;
+            });
+        }
+
+        vm.getModel = getModel;
+
+        function getModel() {
+            resetParam();
+            /*if (!uid) {
+                return false;
+            }
+            params.uid = uid;*/
+            return authfactory.getModel(params).then(function successCallback(response) {
+                if (response.status === 200) {
+
+                    response = response.data.databean;
+
+                    vm.modelDetail = response;
+                    vm.modelDetailList = response;
 
                 }
             }, function errorCallback(response) {
@@ -100,34 +153,13 @@
 
             if (tab === 'supplier') {
                 vm.getSupplier();
+            } else if (tab === 'brand') {
+                vm.getBrand();
+            } else if (tab === 'model') {
+                vm.getModel();
+            } else if (tab === 'category') {
+
             }
-
-        }
-
-
-
-        vm.searchUser = searchUser;
-
-        function searchUser(name) {
-            resetParam();
-            if (!name) {
-                return false;
-            }
-            params.name = name;
-            return authfactory.getUser(params).then(function successCallback(response) {
-                vm.allUsers = [];
-                if (response.status === 200) {
-                    response = response.data;
-
-                    vm.allUsers = response;
-                    return response;
-                }
-            }, function errorCallback(response) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-                return false;
-            });
-
         }
 
         function resetParam() {

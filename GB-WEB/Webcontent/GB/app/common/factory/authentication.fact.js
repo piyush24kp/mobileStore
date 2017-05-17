@@ -17,7 +17,11 @@
             createOrder: createOrder,
             createSupplier: createSupplier,
             getSupplier: getSupplier,
-            getSupplierId: getSupplierId
+            getSupplierId: getSupplierId,
+            getBrand: getBrand,
+            getModel: getBrand,
+            changeBrand: changeBrand,
+            saveBrand: saveBrand
         };
         return service;
 
@@ -35,37 +39,64 @@
         }
 
         function getOrders(param) {
-            var url = '/getOrders';
+            var url = '/stock/getOrders';
             url = getParamUrl(url, param);
             return $http.get(config.APIurl + url, param)
                 .then(getDataComplete);
         }
 
         function createOrder(data) {
-            var url = '/setOrders';
+            var url = '/stock/setOrders';
 
             return $http.post(config.APIurl + url, data)
                 .then(getDataComplete);
         }
 
         function createSupplier(data) {
-            var url = '/createSupplier';
+            var url = '/stock/createSupplier';
+            return $http.post(config.APIurl + url, data)
+                .then(getDataComplete);
+        }
 
+        function saveBrand(data) {
+            var url = '/stock/createBrands';
             return $http.post(config.APIurl + url, data)
                 .then(getDataComplete);
         }
 
         function getSupplier(param) {
-            var url = '/getSupplier';
+            var url = '/stock/getSupplier';
             // url = getParamUrl(url, param);
             return $http.get(config.APIurl + url, param)
                 .then(getDataComplete);
         }
 
         function getSupplierId(param) {
-            var url = '/getSupplierId';
+            var url = '/stock/getSupplierId';
             // url = getParamUrl(url, param);
             return $http.get(config.APIurl + url, param)
+                .then(getDataComplete);
+        }
+
+        function getBrand(param) {
+            var url = '/stock/getBrands';
+            // url = getParamUrl(url, param);
+            return $http.get(config.APIurl + url, param)
+                .then(getDataComplete);
+        }
+
+        function getModel(param) {
+            var url = '/stock/getModel';
+            // url = getParamUrl(url, param);
+            return $http.get(config.APIurl + url, param)
+                .then(getDataComplete);
+        }
+
+        function changeBrand(brandId) {
+            var url = '/stock/getModelById';
+            //url = getParamUrl(url, param);
+            url = url + '?id=' + brandId;
+            return $http.get(config.APIurl + url, brandId)
                 .then(getDataComplete);
         }
 

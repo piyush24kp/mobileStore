@@ -14,9 +14,9 @@
 					<select ng-model="vm.search" class="input-md form-control">
 						<option value="orderId">Product Id</option>
 						<option value="orderName"> Order Name</option>
-						<option value="brand">Brand</option>
+						<option value="brand.brandName">Brand</option>
 						<option value="category">Category</option>
-						<option value="suppliedBy">SuppliedBy</option>
+						<option value="suppliedBy.supplierName">SuppliedBy</option>
 					</select>
 
 				</th>
@@ -45,24 +45,28 @@
 			<tr>
 				<th st-sort="orderId">Product Id</th>
 				<th st-sort="orderName">Order Name</th>
-				<th st-sort="category">Category</th>
-				<th st-sort="brand">Brand</th>
+				<th st-sort="orderDate">Date</th>
+				<th st-sort="brand.brandName">Brand</th>
+				<th st-sort="model.modelNa">Model</th>
 				<th st-sort="quantity">Quantity</th>
+				<th st-sort="category">Category</th>
 				<th st-sort="purchasePrice">Purchase Price</th>
 				<th st-sort="sellPrice">Selling Price</th>
-				<th st-sort="suppliedBy">Supplied By</th>
+				<th st-sort="suppliedBy.supplierName">Supplied By</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr ng-repeat="row in vm.orderDetails">
 				<td>{{row.orderId}}</td>
 				<td>{{row.orderName}}</td>
-				<td>{{row.category}}</td>
-				<td>{{row.brand}}</td>
+				<td>{{row.orderDate | date}}</td>
+				<td>{{row.brand.brandName}}</td>
+				<td>{{row.model.modelName}}</td>
 				<td>{{row.quantity}}</td>
+				<td>{{row.category}}</td>
 				<td>{{row.purchasePrice}}</td>
 				<td>{{row.sellPrice}}</td>
-				<td>{{row.suppliedBy}}</td>
+				<td>{{row.suppliedBy.supplierName}}</td>
 				</tr>
 
 			</tbody>
@@ -89,7 +93,7 @@
 
 				</th>
 				<th>
-					<input type="button" value="Add Order" class="btn btn-primary pull-right" model-box modal-data="" 
+					<input type="button" value="Add Supplier" class="btn btn-primary pull-right" model-box modal-data="" 
 					options="
 					{
 					'animation': true,
@@ -122,7 +126,7 @@
 				<td>{{row.contactNo}}</td>
 				<td>{{row.address}}</td>
 				<td>{{row.amountDue}}</td>
-				<td>{{row.amountPaid}}</td>
+				<td>{{row.amountpaid}}</td>
 			</tbody>
 
 			<tfoot>
@@ -137,10 +141,103 @@
       
 
 
-      <uib-tab index="2" heading="Brands">
-        
+      <uib-tab index="2" heading="Brands" ng-click="vm.selectTab('brand')">
+        <table st-table="vm.brandDetail" class="table table-striped" st-safe-src="vm.brandDetailList">
+			<thead>
+
+			<tr>
+				<th>  
+					<!-- <input st-search placeholder="search for supplier" class="input-sm form-control" type="search"/> -->
+					<input st-search class="form-control" type="search" placeholder="search for Brand"/>
+
+				</th>
+				<th>
+					<input type="button" value="Add Brand" class="btn btn-primary pull-right" model-box modal-data="" 
+					options="
+					{
+					'animation': true,
+                    'templateUrl': 'GB/app/layout/screens/modal/addBrandModal.tmpl.html',
+                    'size': 'md',
+                    
+					}"/>
+				</th>
+			</tr>
+			<tr>
+				<th st-sort="brandId">Brand Id</th>
+				<th st-sort="brandName">Brand Name</th>				
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="row in vm.brandDetail">
+				<td>{{row.brandId}}</td>
+				<td>{{row.brandName}}</td>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td colspan="6" class="text-center">
+					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="5"></div>
+				</td>
+			</tr>
+		</tfoot>
+		</table>
       
       </uib-tab>
+
+      <uib-tab index="3" heading="Model" ng-click="vm.selectTab('model')">
+        
+        <table st-table="vm.modelDetail" class="table table-striped" st-safe-src="vm.modelDetailList">
+			<thead>
+
+			<tr>
+				<th>  
+					<!-- <input st-search placeholder="search for supplier" class="input-sm form-control" type="search"/> -->
+					<input st-search class="form-control" type="search" placeholder="search for Brand"/>
+
+				</th>
+				<th>
+					<input type="button" value="Add Brand" class="btn btn-primary pull-right" model-box modal-data="" 
+					options="
+					{
+					'animation': true,
+                    'templateUrl': 'GB/app/layout/screens/modal/addBrand.tmpl.html',
+                    'size': 'md',
+                    
+					}"/>
+				</th>
+			</tr>
+			<tr>
+				<th st-sort="modelId">Model Id</th>
+				<th st-sort="modelName">Model Name</th>
+				<th st-sort="brandName">Brand Name</th>
+				<th st-sort="storage">Storage</th>
+				<th st-sort="price">Price</th>				
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="row in vm.modelDetail">
+				<td>{{row.modelId}}</td>
+				<td>{{row.modelName}}</td>
+				<td>{{row.brandName}}</td>
+				<td>{{row.storage}}</td>
+				<td>{{row.price}}</td>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td colspan="6" class="text-center">
+					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="5"></div>
+				</td>
+			</tr>
+		</tfoot>
+		</table>
+      
+      </uib-tab>
+
+      <uib-tab index="4" heading="Category" ng-click="vm.selectTab('catgory')">
+        
+
+      
+      </uib-tab>
+
 
 
     

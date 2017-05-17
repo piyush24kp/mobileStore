@@ -1,16 +1,23 @@
 package com.gb.vo;
 
+import java.sql.Date;
+
+import com.gb.model.ModelDetail;
+import com.gb.model.SupplierDetail;
+
 public class OrderDetailVo {
 	
 	private Long orderId;
 	private String orderName;
 	private Integer amount;
 	private Integer quantity;
-	private String brand;
+	private BrandDetailVo brand;
 	private String category;
 	private Integer purchasePrice;
 	private Integer sellPrice;
-	private Long suppliedBy;
+	private AllSuppliersDetailVo suppliedBy;
+	private Date orderDate;
+	private AllModelsVo model;
 	
 	public Long getOrderId() {
 		return orderId;
@@ -36,10 +43,10 @@ public class OrderDetailVo {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	public String getBrand() {
+	public BrandDetailVo getBrand() {
 		return brand;
 	}
-	public void setBrand(String brand) {
+	public void setBrand(BrandDetailVo brand) {
 		this.brand = brand;
 	}
 	public String getCategory() {
@@ -60,12 +67,23 @@ public class OrderDetailVo {
 	public void setSellPrice(Integer sellPrice) {
 		this.sellPrice = sellPrice;
 	}
-	public Long getSuppliedBy() {
+	public AllSuppliersDetailVo getSuppliedBy() {
 		return suppliedBy;
 	}
-	public void setSuppliedBy(Long suppliedBy) {
+	public void setSuppliedBy(AllSuppliersDetailVo suppliedBy) {
 		this.suppliedBy = suppliedBy;
 	}
 	
-	
+	public Date getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+	public AllModelsVo getModel() {
+		return model;
+	}
+	public void setModel(AllModelsVo model) {
+		this.model = model;
+	}
 }

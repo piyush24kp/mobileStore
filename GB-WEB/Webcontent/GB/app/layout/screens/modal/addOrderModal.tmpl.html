@@ -15,7 +15,12 @@
               </div>
               <div class="form-group">
                 <label for="Brand">Brand</label>
-                <input type="text" class="form-control" id="brand" ng-model="vm.order.brand">
+                <!-- <input type="text" class="form-control" id="brand" ng-model="vm.order.brand"> -->
+                <select id="brand" ng-model="vm.order.brand" class="form-control" ng-options="brand.brandId as brand.brandName for brand in vm.brandDetail" ng-change="vm.changeBrand(vm.order.brand)"></select>
+              </div>
+              <div class="form-group">
+                <label for="Model">Model</label>
+                <select id="model" ng-model="vm.order.model" class="form-control" ng-options="model.modelId as model.modelName for model in vm.modelDetail"></select>
               </div>
               <div class="form-group">
                 <label for="Quantity">Quantity</label>
@@ -31,14 +36,7 @@
               </div>
               <div class="form-group">
                 <label for="suppliedBy">Supplied By</label>
-               <!--  <input type="text" class="form-control" id="sellPrice" ng-model="vm.order.suppliedBy"> -->
-                <select  class="form-control" id="sellPrice" ng-model="vm.order.suppliedBy">
-                  <option ng-repeat="data in vm.suppliyers" value="{{data.supplierId}}">{{data.supplierName}}</option>
-                  <!-- <option value="orderName"> Order Name</option>
-                  <option value="brand">Brand</option>
-                  <option value="category">Category</option>
-                  <option value="suppliedBy">SuppliedBy</option> -->
-                </select>
+                <select  class="form-control" id="sellPrice" ng-model="vm.order.suppliedBy" ng-options="sup.supplierId as sup.supplierName for sup in vm.suppliyers"></select>
               </div>
             </form>
         </div>

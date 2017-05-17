@@ -1,10 +1,14 @@
 package com.gb.model;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class OrderDetail {
 
 	@Id
@@ -38,6 +42,12 @@ public class OrderDetail {
 	
 	@Column(name="suppliedBy")
 	private Long suppliedBy;
+	
+	@Column(name="orderDate")
+	private Date orderDate;
+	
+	@Column(name="orderDate")
+	private String model;
 
 	public Integer getuId() {
 		return uId;
@@ -117,6 +127,17 @@ public class OrderDetail {
 	public void setSuppliedBy(Long suppliedBy) {
 		this.suppliedBy = suppliedBy;
 	}
-	
+	public Date getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+	public String getModel() {
+		return model;
+	}
+	public void setModel(String model) {
+		this.model = model;
+	}
 	
 }
