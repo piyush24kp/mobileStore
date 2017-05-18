@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class SellDetailVo {
 	private Long orderId;
-	private Long invoiceNo;
+	private String invoiceNo;
 	private String customerName;
 	private Long contantNo;
 	private Long imeiNo;
@@ -14,16 +14,17 @@ public class SellDetailVo {
 	private String address;
 	private Date sellDate;
 	private Long amount;
+	private String vendor;
 	public Long getOrderId() {
 		return orderId;
 	}
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
-	public Long getInvoiceNo() {
+	public String getInvoiceNo() {
 		return invoiceNo;
 	}
-	public void setInvoiceNo(Long invoiceNo) {
+	public void setInvoiceNo(String invoiceNo) {
 		this.invoiceNo = invoiceNo;
 	}
 	public String getCustomerName() {
@@ -80,7 +81,12 @@ public class SellDetailVo {
 	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
-	
+	public String getVendor() {
+		return vendor;
+	}
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
 	
 
 }

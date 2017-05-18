@@ -178,6 +178,42 @@ public class StockController {
 		return new ResponseEntity<ResponceData>(responce, HttpStatus.BAD_REQUEST); 
     }
 	
+	@RequestMapping(value = "/updateBrands", method = RequestMethod.POST, produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponceData> updateBrands(@RequestBody BrandDetailVo brandDetailVo) { 
+		boolean flag = orderServiceImpl.updateBrands(brandDetailVo);
+		ResponceData responce = new ResponceData();
+		if(flag){
+			responce.setMessage("Success");
+			return new ResponseEntity<ResponceData>(responce, HttpStatus.OK); 
+		}
+		responce.setMessage("error");
+		return new ResponseEntity<ResponceData>(responce, HttpStatus.BAD_REQUEST); 
+    }
+	
+	@RequestMapping(value = "/deleteBrand", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponceData> deleteBrand(@QueryParam("id")Long id){
+		ResponceData responce = new ResponceData();
+		if (orderServiceImpl.deleteBrands(id))
+    	{
+			responce.setMessage("Deleted Succesfully.");
+    		return new ResponseEntity<ResponceData>(responce, HttpStatus.OK);	
+		}
+		responce.setMessage("error");
+    	return new ResponseEntity<ResponceData>(responce, HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/getModels", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<ResponceData> getModels() {
+		List<ModelDetailVo> vo = orderServiceImpl.getModels();
+		ResponceData responce = new ResponceData();
+		if(vo.size()>0){
+			responce.setDatabean(vo);
+			responce.setMessage("Success");
+			return new ResponseEntity<ResponceData>(responce, HttpStatus.OK); 
+		}
+		return new ResponseEntity<ResponceData>(responce, HttpStatus.BAD_REQUEST); 
+    }
+	
 	@RequestMapping(value = "/getModelById", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<ResponceData> getModelByBrandId(@QueryParam("id") Long id) {
 		List<AllModelsVo> vo = orderServiceImpl.getModelByBrandId(id);
@@ -201,4 +237,28 @@ public class StockController {
 		}
 		return new ResponseEntity<ResponceData>(responce, HttpStatus.BAD_REQUEST); 
     }
+	
+	@RequestMapping(value = "/updateModel", method = RequestMethod.POST, produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponceData> updateModel(@RequestBody ModelDetail ModelDetail) { 
+		boolean flag = orderServiceImpl.updateModel(ModelDetail);
+		ResponceData responce = new ResponceData();
+		if(flag){
+			responce.setMessage("Success");
+			return new ResponseEntity<ResponceData>(responce, HttpStatus.OK); 
+		}
+		responce.setMessage("error");
+		return new ResponseEntity<ResponceData>(responce, HttpStatus.BAD_REQUEST); 
+    }
+	
+	@RequestMapping(value = "/deleteModel", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponceData> deleteModel(@QueryParam("id")Long id){
+		ResponceData responce = new ResponceData();
+		if (orderServiceImpl.deleteModel(id))
+    	{
+			responce.setMessage("Deleted Succesfully.");
+    		return new ResponseEntity<ResponceData>(responce, HttpStatus.OK);	
+		}
+		responce.setMessage("error");
+    	return new ResponseEntity<ResponceData>(responce, HttpStatus.BAD_REQUEST);
+	}
 }

@@ -24,8 +24,12 @@ this route provider for gust and member users
                 controller: 'loginCtr',
                 controllerAs: 'vm',
             })
+            .when('/error', {
+                templateUrl: 'GB/app/layout/screens/contactAdmin.tmpl.html',
+
+            })
             .otherwise({
-                redirectTo: '/home'
+                redirectTo: '/error'
             });
 
     }]).config(['$httpProvider', function($httpProvider) {

@@ -78,6 +78,16 @@ public class BillingServiceImpl implements BillingService{
 		if(odList.size()>0){
 			OrderDetail detail = odList.get(0);
 			if(detail.getQuantity()>0){
+				String invoiceNo = null;
+				if(sellDetail.getSaleType().equalsIgnoreCase("online")){
+					invoiceNo = sellDetail.getVendor().substring(0, 3);
+				}else{
+					invoiceNo = "STR";
+				}
+				Long millis = System.currentTimeMillis() / 1000L;
+				invoiceNo = invoiceNo + "-" + millis;
+				sellDetail.setInvoiceNo(invoiceNo);
+				
 				if(billingRepository.setSellOrder(sellDetail).equals(1)){
 					System.out.println("sell details updated");
 					detail.setQuantity(detail.getQuantity()-1);

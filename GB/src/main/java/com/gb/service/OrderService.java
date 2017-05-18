@@ -27,5 +27,10 @@ public interface OrderService {
 	public boolean deleteSupplier(Long orderId);
 	public List<AllModelsVo> getModelByBrandId(Long brandId);
 	public ModelDetailVo setModel(ModelDetail modelDetail);
+	public boolean updateBrands(BrandDetailVo brandDetailVo);
+	public boolean deleteBrands(Long brandId);
+	public boolean updateModel(ModelDetail modelDetail);
+	public boolean deleteModel(Long id);
+	
 	
 }

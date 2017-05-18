@@ -57,7 +57,7 @@ body {
   height: 100%;
 }
 html {
-  background: url("../images/GB-Project.jpg") no-repeat center center fixed;
+ /* background: url("../images/GB-Project.jpg") no-repeat center center fixed;*/
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -130,9 +130,9 @@ p {
   text-transform: uppercase;
 }
 .btn-default {
-  background-color: #7e7e7e;
+ /* background-color: #7e7e7e;
   border-color: #7e7e7e;
-  color: #fff;
+  color: #fff;*/
 }
 .no-padding {
   padding: 0px;

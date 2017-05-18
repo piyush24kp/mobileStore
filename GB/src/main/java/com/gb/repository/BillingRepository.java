@@ -25,8 +25,8 @@ public class BillingRepository {
 	}
 	
 	public Integer setSellOrder(SellDetail sellDetail) {
-		String baseQuery = "INSERT INTO sellDetail(orderId,invoiceNo,customerName,contantNo,imeiNo,brand,model,saleType,address,sellDate,amount) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-		Object[] params = new Object[] {sellDetail.getOrderId(),sellDetail.getInvoiceNo(),sellDetail.getCustomerName(),sellDetail.getContantNo(),sellDetail.getImeiNo(),sellDetail.getBrand(),sellDetail.getModel(),sellDetail.getSaleType(),sellDetail.getAddress(),sellDetail.getSellDate(),sellDetail.getAmount()};
+		String baseQuery = "INSERT INTO sellDetail(invoiceNo,customerName,contantNo,imeiNo,brand,model,saleType,address,sellDate,amount) VALUES(?,?,?,?,?,?,?,?,?,?)";
+		Object[] params = new Object[] {sellDetail.getInvoiceNo(),sellDetail.getCustomerName(),sellDetail.getContantNo(),sellDetail.getImeiNo(),sellDetail.getBrand(),sellDetail.getModel(),sellDetail.getSaleType(),sellDetail.getAddress(),sellDetail.getSellDate(),sellDetail.getAmount()};
 		return jdbcTemplate.update(baseQuery, params);
 	}
 	

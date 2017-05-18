@@ -1,4 +1,4 @@
-package com.gb.configuration;
+/*package com.gb.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -39,3 +39,4 @@ public class SwaggerConfig {
                 .includePatterns("/stock/.*");
     }
 }
+*/

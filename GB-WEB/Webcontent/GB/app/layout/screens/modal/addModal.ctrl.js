@@ -11,7 +11,41 @@
         var vm = this;
         vm.order = {};
         var params = {};
+        var option = {};
+        var modalData = {};
+        vm.dirtyCheck = false;
+        $scope.popup1 = {
+            opened: false
+        };
+        $scope.format = "dd-MMMM-yyyy";
+        $scope.altInputFormats = ['M!/d!/yyyy'];
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
 
+        $scope.open1 = function() {
+            $scope.popup1.opened = true;
+        };
+
+        angular.copy($scope.modalData, modalData);
+        angular.copy($scope.modalopt, option);
+
+        if (modalData && option) {
+            if (option.type === 'stock') {
+                vm.order = modalData;
+                vm.order.brand = modalData.brand.brandId;
+                vm.order.model = modalData.model.modelId;
+                vm.order.suppliedBy = modalData.suppliedBy.supplierId;
+            } else if (option.type === 'supplier') {
+
+            } else if (option.type === 'brand') {
+
+            } else if (option.type === 'model') {
+
+            }
+            vm.editMode = true;
+        }
 
         vm.ok = function() {
 
@@ -22,12 +56,12 @@
                     $scope.$emit("addOrder", {
                         order: response
                     });
+                    toastr.success("Stock Added");
                     $scope.$emit("cancelModal");
                     return response;
                 }
             }, function errorCallback(response) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
+                toastr.error("Something Went Wrong");
                 return false;
             });
         };
@@ -40,12 +74,12 @@
                     $scope.$emit("sellOrder", {
                         order: response
                     });
+                    toastr.success("Order Selled");
                     $scope.$emit("cancelModal");
                     return response;
                 }
             }, function errorCallback(response) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
+                toastr.error("Something Went Wrong");
                 return false;
             });
         };
@@ -59,12 +93,12 @@
                     $scope.$emit("supplierOrder", {
                         supplier: response
                     });
+                    toastr.success("Suppliyer Added");
                     $scope.$emit("cancelModal");
                     return response;
                 }
             }, function errorCallback(response) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
+                toastr.error("Something Went Wrong");
                 return false;
             });
         };
@@ -78,16 +112,50 @@
                     $scope.$emit("brandOrder", {
                         brand: response
                     });
+                    toastr.success("Brand Added");
                     $scope.$emit("cancelModal");
                     return response;
                 }
             }, function errorCallback(response) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
+                toastr.success("Something Went Wrong");
                 return false;
             });
         }
 
+        vm.saveModel = saveModel;
+
+        function saveModel() {
+            return authfactory.saveModel(vm.order).then(function successCallback(response) {
+                if (response.status === 200) {
+                    response = response.data.databean;
+                    $scope.$emit("modelOrder", {
+                        model: response
+                    });
+                    toastr.success("Model Added");
+                    $scope.$emit("cancelModal");
+                    return response;
+                }
+            }, function errorCallback(response) {
+                toastr.success("Something Went Wrong");
+                return false;
+            });
+        }
+
+        vm.updateStock = updateStock;
+
+        function updateStock() {
+            return authfactory.updateStock(vm.order).then(function successCallback(response) {
+                if (response.status === 200) {
+                    response = response.data.databean;
+                    toastr.success("Stock Updated");
+                    $scope.$emit("cancelModal");
+                    return response;
+                }
+            }, function errorCallback(response) {
+                toastr.success("Something Went Wrong");
+                return false;
+            });
+        }
 
         vm.getSuppliers = function() {
 
@@ -128,10 +196,16 @@
         vm.changeBrand = changeBrand;
 
         function changeBrand(brandId) {
+            if (!brandId) {
+                return false;
+            }
             return authfactory.changeBrand(brandId).then(function successCallback(response) {
                 if (response.status === 200) {
                     response = response.data.databean;
                     vm.modelDetail = response;
+                    if (modalData) {
+                        vm.dirtyCheck = true;
+                    }
                 }
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
@@ -139,7 +213,7 @@
                 return false;
             });
         }
-
+        vm.changeBrand(vm.order.brand);
 
         vm.cancel = function() {
             $scope.$emit("cancelModal");

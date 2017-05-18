@@ -19,11 +19,14 @@
             getSupplier: getSupplier,
             getSupplierId: getSupplierId,
             getBrand: getBrand,
-            getModel: getBrand,
+            getModel: getModel,
             changeBrand: changeBrand,
             saveBrand: saveBrand,
             getSellOrders: getSellOrders,
-            setSellOrder: setSellOrder
+            setSellOrder: setSellOrder,
+            saveModel: saveModel,
+            updateStock: updateStock,
+            deleteStock: deleteStock
         };
         return service;
 
@@ -72,6 +75,18 @@
                 .then(getDataComplete);
         }
 
+        function saveModel(data) {
+            var url = '/stock/setModel';
+            return $http.post(config.APIurl + url, data)
+                .then(getDataComplete);
+        }
+
+        function updateStock(data) {
+            var url = '/stock/updateOrder';
+            return $http.post(config.APIurl + url, data)
+                .then(getDataComplete);
+        }
+
         function getSupplier(param) {
             var url = '/stock/getSupplier';
             // url = getParamUrl(url, param);
@@ -94,7 +109,7 @@
         }
 
         function getModel(param) {
-            var url = '/stock/getModel';
+            var url = '/stock/getModels';
             // url = getParamUrl(url, param);
             return $http.get(config.APIurl + url, param)
                 .then(getDataComplete);
@@ -112,6 +127,14 @@
             var url = '/billing/getSellOrders';
             // url = getParamUrl(url, param);
             return $http.get(config.APIurl + url, param)
+                .then(getDataComplete);
+        }
+
+        function deleteStock(stockId) {
+            var url = '/stock/deleteOrder';
+            //url = getParamUrl(url, param);
+            url = url + '?id=' + stockId;
+            return $http.get(config.APIurl + url, stockId)
                 .then(getDataComplete);
         }
 

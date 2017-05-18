@@ -40,6 +40,29 @@ INSERT INTO `brands` VALUES (1,'Apple'),(2,'MI'),(3,'Samsung'),(4,'Sony'),(5,'Op
 UNLOCK TABLES;
 
 --
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `categoryId` int(11) NOT NULL AUTO_INCREMENT,
+  `categoryName` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`categoryId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `models`
 --
 
@@ -55,7 +78,7 @@ CREATE TABLE `models` (
   PRIMARY KEY (`modelId`),
   KEY `FK_models` (`brandId`),
   CONSTRAINT `models_ibfk_1` FOREIGN KEY (`brandId`) REFERENCES `brands` (`brandId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +87,7 @@ CREATE TABLE `models` (
 
 LOCK TABLES `models` WRITE;
 /*!40000 ALTER TABLE `models` DISABLE KEYS */;
-INSERT INTO `models` VALUES (1,'Iphone 6',1,' 32Gb','20000'),(2,'Iphone 6s',1,' 32Gb','30000'),(3,'S8',3,'64GB','57000');
+INSERT INTO `models` VALUES (1,'Iphone 6',1,' 32Gb','20000'),(2,'Iphone 6s',1,' 32Gb','30000'),(3,'S8',3,'64GB','57000'),(4,'Iphone 5s',1,'16Gb','18000'),(5,'Iphone 4s',1,'16Gb','18000'),(7,'S6',3,'32GB','3200');
 /*!40000 ALTER TABLE `models` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,7 +124,7 @@ CREATE TABLE `orderdetails` (
 
 LOCK TABLES `orderdetails` WRITE;
 /*!40000 ALTER TABLE `orderdetails` DISABLE KEYS */;
-INSERT INTO `orderdetails` VALUES (1,10000,'Iphone 6s',NULL,5,'M',380000,36000,'APEX','1',1,'2017-05-16 00:00:00','1'),(17,1494916812,'Testing24',NULL,1,'32Gb',24000,3000,NULL,'3',1,'2017-05-16 00:00:00','3'),(24,1494919807,'Testing24',NULL,3,'32Gb',24000,3000,NULL,'1',1,'2017-05-16 00:00:00','2');
+INSERT INTO `orderdetails` VALUES (1,10000,'Iphone 6s',1000,5,'M',380000,36000,'APEX','1',1,'2017-05-16 00:00:00','1'),(17,1494916812,'Testing24',1000,1,'32Gb',24000,3000,NULL,'3',1,'2017-05-16 00:00:00','3'),(24,1494919807,'Testing24',1000,2,'32Gb',24000,3000,NULL,'1',1,'2017-05-16 00:00:00','2');
 /*!40000 ALTER TABLE `orderdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,19 +136,20 @@ DROP TABLE IF EXISTS `selldetail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `selldetail` (
-  `orderId` int(11) NOT NULL,
-  `invoiceNo` int(11) DEFAULT NULL,
+  `orderId` bigint(10) NOT NULL AUTO_INCREMENT,
+  `invoiceNo` varchar(45) DEFAULT NULL,
   `customerName` varchar(45) DEFAULT NULL,
-  `contantNo` varchar(10) DEFAULT NULL,
-  `imeiNo` varchar(20) NOT NULL,
+  `imeiNo` bigint(10) NOT NULL,
   `brand` varchar(10) DEFAULT NULL,
   `model` varchar(10) DEFAULT NULL,
   `saleType` varchar(10) DEFAULT NULL,
   `address` varchar(45) DEFAULT NULL,
   `sellDate` date DEFAULT NULL,
-  `amount` int(11) DEFAULT NULL,
+  `amount` bigint(10) DEFAULT NULL,
+  `contantNo` bigint(10) DEFAULT NULL,
+  `vendor` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`orderId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +158,7 @@ CREATE TABLE `selldetail` (
 
 LOCK TABLES `selldetail` WRITE;
 /*!40000 ALTER TABLE `selldetail` DISABLE KEYS */;
-INSERT INTO `selldetail` VALUES (1,100,'Piyush','7415786624','123456789123456','1','1','offline','141 indore','2017-05-16',32000),(2,101,'Piyush',NULL,'12345678912','1','2','offline','141 indore','2017-05-16',32000),(3,101,'Piyush',NULL,'12345678912','1','2','offline','141 indore','2017-05-16',32000),(4,124,'Piyush',NULL,'12345678912','1','2','offline','141 indore','2017-05-16',32000);
+INSERT INTO `selldetail` VALUES (1,'100','Piyush',123456789123456,'1','2','offline','141 indore','2017-05-17',32000,7415786624,NULL),(2,'101','DJ',1111111111,'1','1','ONLINE','141 indore','2017-05-17',32000,123345,'Amazon'),(4,'124','Piyush',12345678912,'1','2','offline','141 indore','2017-05-16',32000,1111111111,NULL),(5,'111','test 123',12345678912,'1','2','offline','141 indore','2017-05-16',32000,1111,NULL),(7,'STR-1495094054','test 123',12345678912,'1','1','offline','141 indore','2017-05-16',32000,NULL,NULL),(8,'Ama-1495094080','test 123',12345678912,'1','1','online','141 indore','2017-05-16',32000,NULL,NULL);
 /*!40000 ALTER TABLE `selldetail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +177,7 @@ CREATE TABLE `supplier` (
   `amountDue` varchar(10) DEFAULT NULL,
   `amountPaid` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`supplierId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +186,7 @@ CREATE TABLE `supplier` (
 
 LOCK TABLES `supplier` WRITE;
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
-INSERT INTO `supplier` VALUES (1,'test',123456789,'1233456','1000','4000'),(2,'dj',123456789,'123123','500','2500'),(3,'AS',23,'123','123123','0');
+INSERT INTO `supplier` VALUES (1,'test',123456789,'1233456','1000','4000'),(2,'dj',123456789,'123123','500','2500'),(3,'AS',23,'123','123123','0'),(13,'test',123456,'indore','1000','4000');
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-16 19:34:07
+-- Dump completed on 2017-05-18 19:51:27

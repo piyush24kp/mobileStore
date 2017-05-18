@@ -12,7 +12,7 @@
 				<th>  
 				<label> Search By  </label>
 					<select ng-model="vm.search" class="input-md form-control">
-						<option value="orderId">Product Id</option>
+						<option value="orderId">Stock Id</option>
 						<option value="orderName"> Order Name</option>
 						<option value="brand.brandName">Brand</option>
 						<option value="category">Category</option>
@@ -31,7 +31,7 @@
 					{
 					'animation': true,
                     'templateUrl': 'GB/app/layout/screens/modal/addOrderModal.tmpl.html',
-                    'size': 'md',
+                    'size': 'lg',
                     
 					}"/>
 				</th>
@@ -43,7 +43,7 @@
 				</th> -->
 			</tr>
 			<tr>
-				<th st-sort="orderId">Product Id</th>
+				<th st-sort="orderId">Stock Id</th>
 				<th st-sort="orderName">Order Name</th>
 				<th st-sort="orderDate">Date</th>
 				<th st-sort="brand.brandName">Brand</th>
@@ -53,6 +53,7 @@
 				<th st-sort="purchasePrice">Purchase Price</th>
 				<th st-sort="sellPrice">Selling Price</th>
 				<th st-sort="suppliedBy.supplierName">Supplied By</th>
+				<th>Action</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -67,13 +68,26 @@
 				<td>{{row.purchasePrice}}</td>
 				<td>{{row.sellPrice}}</td>
 				<td>{{row.suppliedBy.supplierName}}</td>
+				<td>
+					<span style=" margin: 5px;">
+						<a href="" model-box modaldata="row" options="
+					{'type':'stock',
+					'animation': true,
+                    'templateUrl': 'GB/app/layout/screens/modal/updateStockModal.tmpl.html',
+                    'size': 'lg',
+                    
+					}"><i class="fa fa-pencil" aria-hidden="true"  ng-if="!row.selected"></i></a>
+						<!-- <i class="fa fa-floppy-o" aria-hidden="true" ng-click="row.selected = ! row.selected" ng-if="row.selected"></i> -->
+					</span>
+					<span style=" margin: 5px;"><i class="fa fa-times" style="color:red;" aria-hidden="true" ng-click="vm.deleteStock(row.orderId)"></i></span>
+				</td>
 				</tr>
 
 			</tbody>
 
 			<tfoot>
 			<tr>
-				<td colspan="10" class="text-center">
+				<td colspan="11" class="text-center">
 					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="5"></div>
 				</td>
 			</tr>
@@ -199,7 +213,7 @@
 					options="
 					{
 					'animation': true,
-                    'templateUrl': 'GB/app/layout/screens/modal/addBrand.tmpl.html',
+                    'templateUrl': 'GB/app/layout/screens/modal/addModelModal.tmpl.html',
                     'size': 'md',
                     
 					}"/>
@@ -217,7 +231,7 @@
 			<tr ng-repeat="row in vm.modelDetail">
 				<td>{{row.modelId}}</td>
 				<td>{{row.modelName}}</td>
-				<td>{{row.brandName}}</td>
+				<td>{{row.brandId.brandName}}</td>
 				<td>{{row.storage}}</td>
 				<td>{{row.price}}</td>
 			</tbody>
@@ -232,18 +246,11 @@
       
       </uib-tab>
 
-      <uib-tab index="4" heading="Category" ng-click="vm.selectTab('catgory')">
+      <!-- <uib-tab index="4" heading="Category" ng-click="vm.selectTab('catgory')">
         
 
       
-      </uib-tab>
+      </uib-tab> -->
 
-
-
-    
     </uib-tabset>
-
-	
-
-
 </div>

@@ -139,13 +139,13 @@ public class OrderRepository {
 	}
 	
 	public Integer updateBrands(BrandDetailVo b) {
-		String baseQuery = "UPDATE brands set brandId = ?, brandName = ?";
-		Object[] params = new Object[] { b.getBrandId(),b.getBrandName() };
+		String baseQuery = "UPDATE brands set brandName = ? WHERE brandId = ?";
+		Object[] params = new Object[] { b.getBrandName(),b.getBrandId() };
 		return jdbcTemplate.update(baseQuery, params);
 	}
 	
 	public Integer deleteBrands(Long brandId) {
-		String baseQuery = "DELETE FROM employee WHERE id = ?";
+		String baseQuery = "DELETE FROM brands WHERE brandId = ?";
 		Object[] params = new Object[] { brandId };
 		return jdbcTemplate.update(baseQuery, params);
 	}
@@ -189,5 +189,24 @@ public class OrderRepository {
 		String baseQuery = "select * FROM models WHERE modelId = (select MAX(modelId) from models)";
 		details = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(ModelDetail.class));
 		return details.get(0);
+	}
+
+	public List<ModelDetail> getModels() {
+		List<ModelDetail> details = new ArrayList();
+		String baseQuery = "select * FROM models";
+		details = jdbcTemplate.query(baseQuery, new BeanPropertyRowMapper(ModelDetail.class));
+		return details;
+	}
+
+	public Integer updateModel(ModelDetail md) {
+		String baseQuery = "UPDATE model set modelName = ?,brandId=?,storage = ?,price = ?  WHERE modelId = ?";
+		Object[] params = new Object[] { md.getModelName(),md.getBrandId(),md.getStorage(),md.getPrice(),md.getModelId() };
+		return jdbcTemplate.update(baseQuery, params);
+	}
+
+	public Integer deleteModel(Long id) {
+		String baseQuery = "DELETE model brands WHERE modelId = ?";
+		Object[] params = new Object[] { id };
+		return jdbcTemplate.update(baseQuery, params);
 	}
 }

@@ -1,6 +1,7 @@
 package com.gb.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import com.gb.vo.BrandDetailVo;
 import com.gb.vo.ModelDetailVo;
 import com.gb.vo.OrderDetailVo;
 import com.gb.vo.SupplierDetailVo;
-
+import com.mysql.fabric.xmlrpc.base.Array;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -60,7 +61,7 @@ public class OrderServiceImpl implements OrderService{
 			odDetailVo.setQuantity(1);
 			Integer no = orderRepository.createOrder(odDetailVo);
 			if(no.equals(1)){
-				OrderDetail order = 	orderRepository.getOrders(orderId);
+				OrderDetail order = orderRepository.getOrders(orderId);
 				detailVo = parseOrder(order,detailVo);
 			}
 		}
@@ -225,8 +226,69 @@ public class OrderServiceImpl implements OrderService{
 			detailVo.setModelName(order.getModelName());
 			detailVo.setPrice(order.getPrice());
 			detailVo.setStorage(order.getStorage());
-			detailVo.setBrandId(order.getBrandId());
+
+			BrandDetail brand = orderRepository.getBrandById(order.getBrandId());
+			BrandDetailVo bdv = new BrandDetailVo();
+			bdv.setBrandId(brand.getBrandId());
+			bdv.setBrandName(brand.getBrandName());
+			detailVo.setBrandId(bdv);
 		}
 		return detailVo;
+	}
+
+	public List<ModelDetailVo> getModels() {
+		List<ModelDetailVo> model = new ArrayList<>();
+		List<ModelDetail> detailsList = orderRepository.getModels();
+		for(ModelDetail bd : detailsList){
+			ModelDetailVo vo = new ModelDetailVo();
+			vo.setModelId(bd.getModelId());
+			vo.setModelName(bd.getModelName());
+			vo.setPrice(bd.getPrice());
+			vo.setStorage(bd.getStorage());
+			
+			BrandDetail brand = orderRepository.getBrandById(bd.getBrandId());
+			BrandDetailVo bdv = new BrandDetailVo();
+			bdv.setBrandId(brand.getBrandId());
+			bdv.setBrandName(brand.getBrandName());
+			vo.setBrandId(bdv);
+			model.add(vo);
+		}
+		return model;
+	}
+	
+	@Override
+	public boolean updateBrands(BrandDetailVo brandDetailVo) {
+		Integer no = orderRepository.updateBrands(brandDetailVo);
+		if(no.equals(1)){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean deleteBrands(Long brandId) {
+		Integer no = orderRepository.deleteBrands(brandId);
+		if(no.equals(1)){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean updateModel(ModelDetail modelDetail) {
+		Integer no = orderRepository.updateModel(modelDetail);
+		if(no.equals(1)){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean deleteModel(Long id) {
+		Integer no = orderRepository.deleteModel(id);
+		if(no.equals(1)){
+			return true;
+		}
+		return false;
 	}
 }

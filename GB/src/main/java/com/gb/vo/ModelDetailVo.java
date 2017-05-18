@@ -4,7 +4,7 @@ public class ModelDetailVo {
 
 	private Long modelId;
 	private String modelName;
-	private Long brandId;
+	private BrandDetailVo brandId;
 	private String storage;
 	private String price;
 	public Long getModelId() {
@@ -19,10 +19,10 @@ public class ModelDetailVo {
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
 	}
-	public Long getBrandId() {
+	public BrandDetailVo getBrandId() {
 		return brandId;
 	}
-	public void setBrandId(Long brandId) {
+	public void setBrandId(BrandDetailVo brandId) {
 		this.brandId = brandId;
 	}
 	public String getStorage() {

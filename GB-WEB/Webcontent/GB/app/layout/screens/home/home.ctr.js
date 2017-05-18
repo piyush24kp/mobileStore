@@ -68,9 +68,19 @@
             vm.rowCollection.push(args.order);
         });
 
+        $rootScope.$on('supplierOrder', function(event, args) {
+            vm.supplierDetail.push(args.brand);
+            vm.suppDetailCollection.push(args.brand);
+        });
+
         $rootScope.$on('brandOrder', function(event, args) {
             vm.brandDetail.push(args.brand);
             vm.brandDetailList.push(args.brand);
+        });
+
+        $rootScope.$on('modelOrder', function(event, args) {
+            vm.modelDetail.push(args.brand);
+            vm.modelDetailList.push(args.brand);
         });
 
 
@@ -142,6 +152,24 @@
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
+                return false;
+            });
+        }
+
+        vm.deleteStock = deleteStock;
+
+        function deleteStock(orderId) {
+            var r = confirm("Are you sure you want to delete ?");
+            if (!r) {
+                return false;
+            }
+            return authfactory.deleteStock(orderId).then(function successCallback(response) {
+                if (response.status === 200) {
+                    response = response.data.databean;
+                    toastr.success("Deleted Successfully.");
+                }
+            }, function errorCallback(response) {
+                toastr.error(response.message);
                 return false;
             });
         }
