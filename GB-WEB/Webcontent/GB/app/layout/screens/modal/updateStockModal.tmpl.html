@@ -26,7 +26,6 @@
                 <label for="Model">Model</label>
                 <select id="model" ng-model="vm.order.model" class="form-control" ng-options="model.modelId as model.modelName for model in vm.modelDetail" ng-if="vm.dirtyCheck"></select>
                <input type="text" class="form-control" id="orderName" ng-model="vm.order.model.modelName" ng-if="!vm.dirtyCheck" ng-disabled="true" required>
-
               </div>
               <div class="form-group col-lg-6 col-md-6">
                 <label for="Quantity">Quantity</label>

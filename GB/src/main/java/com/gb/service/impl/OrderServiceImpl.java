@@ -52,13 +52,16 @@ public class OrderServiceImpl implements OrderService{
 		if(odList.size()>0){
 			OrderDetail  detail = new OrderDetail();
 			detail = odList.get(0);
-			detail.setQuantity(detail.getQuantity()+1);
+			if(odDetailVo.getQuantity() !=null){
+				detail.setQuantity(detail.getQuantity()+odDetailVo.getQuantity());
+			}else{
+				detail.setQuantity(detail.getQuantity()+1);
+			}
 			if(updateOrder(detail)){
 				OrderDetail order = orderRepository.getOrders(detail.getOrderId());
 				detailVo = parseOrder(order,detailVo);
 			}
 		}else{
-			odDetailVo.setQuantity(1);
 			Integer no = orderRepository.createOrder(odDetailVo);
 			if(no.equals(1)){
 				OrderDetail order = orderRepository.getOrders(orderId);
@@ -66,7 +69,6 @@ public class OrderServiceImpl implements OrderService{
 			}
 		}
 		return detailVo;
-		
 	}
 
 	@Override
